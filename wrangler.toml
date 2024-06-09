@@ -1,21 +1,6 @@
 name = "database-api"
 compatibility_date = "2023-12-01"
 
-# [vars]
-# MY_VAR = "my-variable"
-
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
-
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
-
-# [ai]
-# binding = "AI"
+[vars]
+MONGO_URI = "mongodb+srv://jaysanjaykaria:zaLfLSpia4f1oYid@cluster1.mhnmkyu.mongodb.net/database-api?retryWrites=true&w=majority"
+BEARER_TOKEN = "8B69D424748B6589A286FF7EC5939"
