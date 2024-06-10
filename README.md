@@ -16,13 +16,15 @@ npm install
 ```
 
 - Setup environment variables <br>
-  Create ```.env``` file <br>
-  See the ```env.example``` file and copy past it in ```.env``` file
+  - Create ```.env``` file <br>
+  - See the ```env.example``` file and copy past it in ```.env``` file
 
 ### 💻 Technologies
 - 🔥 Hono.js
 - ☁ Cloudfare Workers
+- 🔼Prisma
 - 🍃 MongoDB
+- 💎 Zod
 
 ### 📝 Note
 This is NOT a public API.<br>
