@@ -2,7 +2,14 @@
 Simple api to store data in database (MongoDB)
 
 ### 📔 Documentation
-TODO
+- Private Store info...
+- Create a private store
+- Get Store
+- Delete store
+- Add data to store
+- Get Data
+- Update Data
+- Delete Data
 
 ### 📦 Setup
 - Clone the repo
@@ -12,7 +19,7 @@ git clone https://github.com/Jay-Karia/database-api.git
 
 - Install dependencies
 ```sh
-npm install
+bun install
 ```
 
 - Setup environment variables <br>

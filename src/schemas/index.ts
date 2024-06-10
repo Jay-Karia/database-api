@@ -1,4 +1,5 @@
-import mutationSchema from "./mutationSchema";
-import querySchema from "./querySchema";
+import storeKeySchema from "./storeKeySchema";
+import createStoreSchema from "./createStoreSchema";
+import dataSchema from "./dataSchema";
 
-export {mutationSchema, querySchema}
+export {storeKeySchema, createStoreSchema, dataSchema}

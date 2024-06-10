@@ -1,7 +1,7 @@
 import { Context } from "hono"
-import { mutationSchema, querySchema } from "../schemas"
+import { storeKeySchema, createStoreSchema, dataSchema } from "../schemas"
 
-type SchemaType = typeof querySchema | typeof mutationSchema
+type SchemaType = typeof createStoreSchema | typeof storeKeySchema | typeof dataSchema
 
 const validate = (value : any, c : Context, schema : SchemaType) => {
     const parsed = schema.safeParse(value)
