@@ -1,6 +1,8 @@
 import { Context } from "hono";
 import db from "../db"
-import { getStore, isValidKey, getData } from "../lib";
+import { getStore } from "../lib/storeLib";
+import isValidKey from "../lib/isValidKey";
+import getData from "../lib/getData";
 
 const createData = async (c: Context) => {
     // @ts-ignore

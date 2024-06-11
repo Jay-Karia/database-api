@@ -1,7 +1,8 @@
 import { Hono } from 'hono'
 import { bearerAuth } from 'hono/bearer-auth'
 
-import { storeRouter, dataRouter } from './routes'
+import storeRouter from './routes/storeRouter'
+import dataRouter from './routes/dataRouter'
 
 const app = new Hono()
 

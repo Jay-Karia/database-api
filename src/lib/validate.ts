@@ -1,5 +1,6 @@
 import { Context } from "hono"
-import { storeKeySchema, createStoreSchema, dataSchema } from "../schemas"
+import { createStoreSchema, storeKeySchema } from "../schemas/storeSchemas"
+import { dataSchema } from "../schemas/dataSchemas"
 
 type SchemaType = typeof createStoreSchema | typeof storeKeySchema | typeof dataSchema
 

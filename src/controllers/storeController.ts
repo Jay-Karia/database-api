@@ -1,9 +1,9 @@
 import { Context } from "hono";
-import { checkDuplicateName, genStoreKey, getStore, isValidKey } from "../lib";
-import { storeKeySchema, createStoreSchema } from "../schemas";
-
 import bcryptjs from 'bcryptjs'
+
 import db from "../db";
+import { checkDuplicateName, genStoreKey, getStore } from "../lib/storeLib";
+import isValidKey from "../lib/isValidKey";
 
 const createStore = async (c: Context) => {
     // @ts-ignore

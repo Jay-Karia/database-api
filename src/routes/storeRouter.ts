@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
 import { validator } from 'hono/validator'
 
-import { validate } from '../lib'
-import { storeKeySchema, createStoreSchema } from '../schemas'
+import validate from '../lib/validate'
+import { storeKeySchema, createStoreSchema } from '../schemas/storeSchemas'
 import { createStore, specificStore } from '../controllers/storeController'
 
 const storeRouter = new Hono()

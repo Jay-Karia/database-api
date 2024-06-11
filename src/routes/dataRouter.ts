@@ -2,9 +2,9 @@ import { Hono } from "hono";
 import { validator } from 'hono/validator'
 
 import { createData, updateData } from "../controllers/dataController";
-import { storeKeySchema, dataSchema, updateDataSchema } from "../schemas";
+import { dataSchema, updateDataSchema } from "../schemas/dataSchemas";
 
-import { validate } from "../lib";
+import validate from "../lib/validate";
 
 const dataRouter = new Hono()
 
