@@ -6,4 +6,9 @@ const dataSchema = z.object({
     value: z.string(),
 })
 
-export default dataSchema
+const updateDataSchema = z.object({
+    storeKey: z.string(),
+    value: z.string(),
+})
+
+export { dataSchema, updateDataSchema }

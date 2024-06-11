@@ -1,5 +1,6 @@
 import { Context } from "hono";
-import { checkDuplicateName, genStoreKey, isValidKey } from "../lib";
+import { checkDuplicateName, genStoreKey, getStore, isValidKey } from "../lib";
+import { storeKeySchema, createStoreSchema } from "../schemas";
 
 import bcryptjs from 'bcryptjs'
 import db from "../db";
@@ -46,11 +47,7 @@ const specificStore = async (c: Context) => {
     try {
 
         // get store
-        const store = await db.store.findUnique({
-            where: {
-                id: storeId
-            }
-        })
+        const store = await getStore(storeId)
 
         if (!store) {
             return c.json({ message: "Store not found" }, 400)
@@ -75,7 +72,7 @@ const specificStore = async (c: Context) => {
             }
         }
 
-        return c.json({ message: "Store found", status: 200, store: { id: store.id, name: store.name } })
+        return c.json({ message: "Store found", status: 200, store: { id: store.id, name: store.name, data: store.data } })
 
     } catch (error) {
         return c.json({ message: "Error getting store", status: 400 }, 400)

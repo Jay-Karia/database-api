@@ -1,5 +1,4 @@
-import storeKeySchema from "./storeKeySchema";
-import createStoreSchema from "./createStoreSchema";
-import dataSchema from "./dataSchema";
+import { storeKeySchema, createStoreSchema } from "./storeSchemas";
+import { dataSchema, updateDataSchema } from "./dataSchemas";
 
-export {storeKeySchema, createStoreSchema, dataSchema}
+export { storeKeySchema, createStoreSchema, dataSchema, updateDataSchema }

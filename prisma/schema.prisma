@@ -22,7 +22,7 @@ model Store {
 
 model Data {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
-  storeId  String @db.ObjectId
   value    String
   store    Store  @relation(fields: [storeId], references: [id])
+  storeId  String @db.ObjectId
 }
