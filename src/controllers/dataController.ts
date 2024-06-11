@@ -80,6 +80,42 @@ const updateData = async (c: Context) => {
     }
 }
 
-// ... other CRUD operations
+const specificData = async (c: Context) => {
 
-export { createData, updateData }
+    // @ts-ignore
+    const { storeKey } = c.req.valid("json") as { storeKey: string };
+    const dataId = c.req.param("id")
+    const isDelete = c.req.query("delete")
+
+    // get data
+    const data = await getData(dataId)
+
+    if (!data) {
+        return c.json({ message: "Could not find data" }, 400)
+    }
+
+    // check if the store key is valid
+    if (!(await isValidKey(storeKey, data.store.storeKey))) {
+        return c.json({ message: "Invalid store key" }, 400)
+    }
+
+    // delete data
+    if (isDelete === "true") {
+        try {
+            await db.data.delete({
+                where: {
+                    id: dataId
+                }
+            })
+            return c.json({ message: "Data deleted successfully" })
+        } catch (e) {
+            console.error(e)
+            return c.json({ message: "Internal Server Error" }, 500)
+        }
+    }
+
+
+    return c.json({ message: "Data fetched successfully", data: { id: data.id, value: data.value, storeId: data.storeId }, store: { name: data.store.name, id: data.store.id } })
+}
+
+export { createData, updateData, specificData }

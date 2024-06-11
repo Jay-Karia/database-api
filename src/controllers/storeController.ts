@@ -59,17 +59,17 @@ const specificStore = async (c: Context) => {
         }
 
         // delete the store
-        if (isDelete) {
-            try {
+        if (isDelete === "true") {
+            // try {
                 await db.store.delete({
                     where: {
                         id: storeId
                     }
                 })
                 return c.json({ message: "Store deleted" })
-            } catch {
-                return c.json({ message: "Could not delete store" }, 400)
-            }
+            // } catch {
+            //     return c.json({ message: "Could not delete store" }, 400)
+            // }
         }
 
         return c.json({ message: "Store found", status: 200, store: { id: store.id, name: store.name, data: store.data } })

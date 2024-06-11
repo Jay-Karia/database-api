@@ -23,6 +23,6 @@ model Store {
 model Data {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   value    String
-  store    Store  @relation(fields: [storeId], references: [id])
+  store    Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
   storeId  String @db.ObjectId
 }
