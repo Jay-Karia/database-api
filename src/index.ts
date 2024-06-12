@@ -6,7 +6,7 @@ import dataRouter from './routes/dataRouter'
 
 const app = new Hono()
 
-const token = process.env.BEARER_TOKEN || ""
+const token = Bun.env.BEARER_TOKEN || ""
 
 app.use('/api/*', bearerAuth({ token }))
 

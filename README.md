@@ -2,14 +2,7 @@
 Simple api to store data in database (MongoDB)
 
 ### 📔 Documentation
-- Private Store info...
-- Create a private store
-- Get Store
-- Delete store
-- Add data to store
-- Get Data
-- Update Data
-- Delete Data
+View the documentation [here](/DOCUMENTATION.md)
 
 ### 📦 Setup
 - Clone the repo

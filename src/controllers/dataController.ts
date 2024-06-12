@@ -115,7 +115,7 @@ const specificData = async (c: Context) => {
     }
 
 
-    return c.json({ message: "Data fetched successfully", data: { id: data.id, value: data.value, storeId: data.storeId }, store: { name: data.store.name, id: data.store.id } })
+    return c.json({ message: "Data fetched successfully", data: { id: data.id, value: data.value }, store: { name: data.store.name, id: data.store.id } })
 }
 
 export { createData, updateData, specificData }
