@@ -14,7 +14,7 @@ app.route('/api/store', storeRouter)
 app.route('/api/data', dataRouter)
 
 app.get('/', (c) => {
-  return c.text("Hello world")
+  return c.html('<h1>🗄 Welcome to Database API</h1><h3>View the documentation <a href="https://github.com/Jay-Karia/database-api/blob/main/DOCUMENTATION.md" target="_blank">here</a></h3>')
 })
 
 export default app
