@@ -4,6 +4,8 @@ import { getStore } from "../lib/storeLib";
 import isValidKey from "../lib/isValidKey";
 import getData from "../lib/getData";
 
+import { INTERNAL_SERVER_ERROR, INVALID_STORE_KEY, STORE_NOT_FOUND } from "../constants";
+
 const createData = async (c: Context) => {
     // @ts-ignore
     const { storeId, storeKey, value } = c.req.valid("json") as { storeId: string, storeKey: string, value: string };
@@ -13,12 +15,12 @@ const createData = async (c: Context) => {
         const store = await getStore(storeId)
 
         if (!store) {
-            return c.json({ message: "Store not found" }, 400)
+            return c.json(STORE_NOT_FOUND, 400)
         }
 
         // check if store key is valid
         if (!(await isValidKey(storeKey, store.storeKey))) {
-            return c.json({ message: "Invalid store key" }, 400)
+            return c.json(INVALID_STORE_KEY, 400)
         }
 
         // add data to store
@@ -29,11 +31,14 @@ const createData = async (c: Context) => {
             },
         })
 
-        return c.json({ message: "Data created successfully", data, store: { id: storeId, name: store.name } })
+        // filtered store data
+        const filterStore = { id: storeId, name: store.name }
+
+        return c.json({ message: "Data created successfully", data, store: filterStore })
 
     } catch (e) {
         console.error(e)
-        return c.json({ message: "Internal Server Error" }, 500)
+        return c.json(INTERNAL_SERVER_ERROR, 500)
     }
 }
 
@@ -59,7 +64,7 @@ const updateData = async (c: Context) => {
 
         // check if store key is valid
         if (!(await isValidKey(storeKey, data.store.storeKey))) {
-            return c.json({ message: "Invalid store key" }, 400)
+            return c.json(INVALID_STORE_KEY, 400)
         }
 
         // update data
@@ -75,8 +80,7 @@ const updateData = async (c: Context) => {
         return c.json({ message: "Data updated successfully" })
     } catch (e) {
         console.error(e)
-        return c.json({ message: "Internal Server Error" }, 500
-        )
+        return c.json(INTERNAL_SERVER_ERROR, 500)
     }
 }
 
@@ -87,35 +91,47 @@ const specificData = async (c: Context) => {
     const dataId = c.req.param("id")
     const isDelete = c.req.query("delete")
 
-    // get data
-    const data = await getData(dataId)
+    try {
 
-    if (!data) {
-        return c.json({ message: "Could not find data" }, 400)
-    }
+        // get data
+        const data = await getData(dataId)
 
-    // check if the store key is valid
-    if (!(await isValidKey(storeKey, data.store.storeKey))) {
-        return c.json({ message: "Invalid store key" }, 400)
-    }
-
-    // delete data
-    if (isDelete === "true") {
-        try {
-            await db.data.delete({
-                where: {
-                    id: dataId
-                }
-            })
-            return c.json({ message: "Data deleted successfully" })
-        } catch (e) {
-            console.error(e)
-            return c.json({ message: "Internal Server Error" }, 500)
+        if (!data) {
+            return c.json({ message: "Could not find data" }, 400)
         }
+
+        // check if the store key is valid
+        if (!(await isValidKey(storeKey, data.store.storeKey))) {
+            return c.json(INVALID_STORE_KEY, 400)
+        }
+
+        // delete data
+        if (isDelete === "true") {
+            try {
+                await db.data.delete({
+                    where: {
+                        id: dataId
+                    }
+                })
+                return c.json({ message: "Data deleted successfully" })
+            } catch (e) {
+                console.error(e)
+                return c.json(INTERNAL_SERVER_ERROR, 500)
+            }
+        }
+
+        // filtered data
+        const filterData = { id: data.id, value: data.value }
+        const filterStore = { name: data.store.name, id: data.store.id }
+
+        return c.json({ message: "Data fetched successfully", data: filterData, store: filterStore })
+
+    } catch (e) {
+        console.error(e)
+        return c.json(INTERNAL_SERVER_ERROR, 500)
     }
 
 
-    return c.json({ message: "Data fetched successfully", data: { id: data.id, value: data.value }, store: { name: data.store.name, id: data.store.id } })
 }
 
 export { createData, updateData, specificData }

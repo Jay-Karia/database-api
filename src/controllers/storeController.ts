@@ -5,6 +5,8 @@ import db from "../db";
 import { checkDuplicateName, genStoreKey, getStore } from "../lib/storeLib";
 import isValidKey from "../lib/isValidKey";
 
+import { INTERNAL_SERVER_ERROR, INVALID_STORE_KEY, STORE_NOT_FOUND } from "../constants";
+
 const createStore = async (c: Context) => {
     // @ts-ignore
     const { name } = c.req.valid("json") as { name: string; };
@@ -13,7 +15,7 @@ const createStore = async (c: Context) => {
 
         // check duplicate name
         if (await checkDuplicateName(name)) {
-            return c.json({ message: "Store name already exists" })
+            return c.json({ message: "Store already exists! Try using different name", success: false }, 400)
         }
 
         // gen store key
@@ -31,9 +33,10 @@ const createStore = async (c: Context) => {
             data: store
         })
 
-        return c.json({ message: "Store created", status: 200, storeKey, storeId: newStore.id })
-    } catch (error) {
-        return c.json({ message: "Error creating store" })
+        return c.json({ message: "Store created!", success: true, storeKey, storeId: newStore.id })
+    } catch (e) {
+        console.error(e)
+        return c.json(INTERNAL_SERVER_ERROR, 500)
     }
 }
 
@@ -50,12 +53,12 @@ const specificStore = async (c: Context) => {
         const store = await getStore(storeId)
 
         if (!store) {
-            return c.json({ message: "Store not found" }, 400)
+            return c.json(STORE_NOT_FOUND, 400)
         }
 
         // check if store key is valid
         if (!(await isValidKey(storeKey, store.storeKey))) {
-            return c.json({ message: "Invalid store key" }, 400)
+            return c.json(INVALID_STORE_KEY, 400)
         }
 
         // delete the store
@@ -66,16 +69,20 @@ const specificStore = async (c: Context) => {
                         id: storeId
                     }
                 })
-                return c.json({ message: "Store deleted" })
+                return c.json({ message: "Store deleted!", success: true })
             } catch {
-                return c.json({ message: "Could not delete store" }, 400)
+                return c.json({ message: "Could not delete store!", success: false }, 400)
             }
         }
 
-        return c.json({ message: "Store found", status: 200, store: { id: store.id, name: store.name, data: store.data } })
+        // filtered store data
+        const filterStore = { id: store.id, name: store.name, data: store.data }
 
-    } catch (error) {
-        return c.json({ message: "Error getting store", status: 400 }, 400)
+        return c.json({ message: "Store found!", success: true, store: filterStore })
+
+    } catch (e) {
+        console.error(e);
+        return c.json(INTERNAL_SERVER_ERROR, 500)
     }
 }
 
