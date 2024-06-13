@@ -54,12 +54,12 @@ const updateData = async (c: Context) => {
         const data = await getData(dataId)
 
         if (!data) {
-            return c.json({ message: "Data not found" }, 400)
+            return c.json({ message: "Data not found", success: false }, 400)
         }
 
         // check is the data entered is new
         if (value === data.value) {
-            return c.json({ message: "Data is the same" }, 400)
+            return c.json({ message: "Data is same", success: false }, 400)
         }
 
         // check if store key is valid
@@ -77,7 +77,11 @@ const updateData = async (c: Context) => {
             }
         })
 
-        return c.json({ message: "Data updated successfully" })
+        // filtered data
+        const filterData = { id: data.id, value: data.value }
+        const filterStore = { name: data.store.name, id: data.store.id }
+
+        return c.json({ message: "Data updated successfully", success: true, data: filterData, store: filterStore })
     } catch (e) {
         console.error(e)
         return c.json(INTERNAL_SERVER_ERROR, 500)
@@ -97,7 +101,7 @@ const specificData = async (c: Context) => {
         const data = await getData(dataId)
 
         if (!data) {
-            return c.json({ message: "Could not find data" }, 400)
+            return c.json({ message: "Could not find data", success: false }, 400)
         }
 
         // check if the store key is valid
@@ -113,7 +117,7 @@ const specificData = async (c: Context) => {
                         id: dataId
                     }
                 })
-                return c.json({ message: "Data deleted successfully" })
+                return c.json({ message: "Data deleted successfully", success: true })
             } catch (e) {
                 console.error(e)
                 return c.json(INTERNAL_SERVER_ERROR, 500)
@@ -124,7 +128,7 @@ const specificData = async (c: Context) => {
         const filterData = { id: data.id, value: data.value }
         const filterStore = { name: data.store.name, id: data.store.id }
 
-        return c.json({ message: "Data fetched successfully", data: filterData, store: filterStore })
+        return c.json({ message: "Data fetched successfully", success: true, data: filterData, store: filterStore })
 
     } catch (e) {
         console.error(e)
